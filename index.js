@@ -9,10 +9,19 @@ import userRoutes from "./routes/users.js";
 dotenv.config();
 
 const app = express();
-
+const cspDirectives = {
+  connectSrc: ["'self'", "https://accounts.google.com/gsi/"],
+  frameSrc: ["'self'", "https://accounts.google.com/gsi/"],
+  scriptSrc: ["'self'", "https://accounts.google.com/gsi/client"],
+  styleSrc: ["'self'", "https://accounts.google.com/gsi/style"],
+};
 app.use(cors());
 app.use(express.json());
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: cspDirectives,
+  })
+);
 app.use("/posts", postRoutes);
 app.use("/user", userRoutes);
 
