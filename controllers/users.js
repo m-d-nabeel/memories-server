@@ -11,7 +11,7 @@ const signin = async (req, res) => {
 
     const isPasswordCorrect = await bcrypt.compare(
       password,
-      existingUser.password
+      existingUser.password,
     );
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid Credentials" });
@@ -19,7 +19,7 @@ const signin = async (req, res) => {
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
       process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     res.status(200).json({ userObject: existingUser, token: token });
@@ -45,7 +45,7 @@ const signup = async (req, res) => {
     const token = jwt.sign(
       { email: userObject.email, id: userObject._id },
       process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
     return res.status(200).json({ userObject: userObject, token: token });
   } catch (error) {
